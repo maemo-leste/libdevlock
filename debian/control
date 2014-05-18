@@ -1,0 +1,15 @@
+Source: libdevlock-dev
+Section: libs
+Priority: extra
+Maintainer: Pali Rohár <pali.rohar@gmail.com>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.9.2
+
+Package: libdevlock-dev
+Architecture: all
+Depends: libdevlock1
+Description: functions for validating and changing the lock code
+ libdevlock provides an API that allows validating and changing the device
+ lock code stored in CAL.
+ .
+ This package contains development header files
