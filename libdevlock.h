@@ -20,7 +20,7 @@
 
 typedef void (*autolock_notify)(gboolean enabled);
 typedef void (*timeout_notify)(gint timeout);
-void devlock_notify_remove(guint key);
+void devlock_notify_remove(guint key, guint unk);
 gboolean devlock_timeout_notify_add(timeout_notify notify_func, guint *key, gchar *string);
 gboolean devlock_autorelock_notify_add(autolock_notify notify_func, guint *key, gchar *string);
 void set_passwd_total_failed_count(gint count);
