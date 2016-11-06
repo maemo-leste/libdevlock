@@ -20,16 +20,25 @@
 
 typedef void (*autolock_notify)(gboolean enabled);
 typedef void (*timeout_notify)(gint timeout);
-void devlock_notify_remove(guint key, guint unk);
-gboolean devlock_timeout_notify_add(timeout_notify notify_func, guint *key, gchar *string);
-gboolean devlock_autorelock_notify_add(autolock_notify notify_func, guint *key, gchar *string);
-void set_passwd_total_failed_count(gint count);
-void set_passwd_failed_count(gint count);
-void get_passwd_total_failed_count(gint *count);
-void get_passwd_failed_count(gint *count);
-void set_timeout_key(gint timeout);
-void get_timeout_key(gint *timeout);
-void set_autolock_key(gboolean enabled);
-void get_autolock_key(gboolean *enabled);
+void devlock_notify_remove(guint key);
+gboolean devlock_timeout_notify_add(timeout_notify notify_func,
+                                    guint *notify_id, gpointer user_data);
+gboolean devlock_autorelock_notify_add(autolock_notify notify_func,
+                                       guint *notify_id, gpointer user_data);
+gboolean set_passwd_total_failed_count(gint count);
+gboolean set_passwd_failed_count(gint count);
+gboolean get_passwd_total_failed_count(gint *count);
+gboolean get_passwd_failed_count(gint *count);
+gboolean set_timeout_key(gint timeout);
+gboolean get_timeout_key(gint *timeout);
+gboolean set_autolock_key(gboolean enabled);
+gboolean get_autolock_key(gboolean *enabled);
+
+gint change_devlock_code(const char *new_code, const char *old_code);
+gint validate_devlock_code(const char *lock_code);
+gboolean get_autolock_setting_from_cal(gint32 *lock_enable);
+gboolean get_timeout_setting_from_cal(gint32 *lock_period);
+gboolean store_autolock_setting_in_cal(gint32 lock_enable);
+gboolean store_timeout_setting_in_cal(gint32 lock_period);
 
 #endif

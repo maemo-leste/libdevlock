@@ -9,7 +9,23 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+CFLAGS = -Wall -g -Werror
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+# Use thumb mode if it enabled.
+ifneq (,$(findstring thumb,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -mthumb
+endif
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
 clean:
+	-$(MAKE) clean
 	dh_testdir
 	dh_testroot
 
@@ -21,15 +37,26 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
-	# Add here commands to install the package into debian/libdevlock-dev.
-	$(MAKE) DESTDIR=$(CURDIR)/debian/libdevlock-dev install
+	# Add here commands to install the package into debian/tmp.
+	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp install
+
+build:
+	CFLAGS="$(CFLAGS)" $(MAKE)
 
 binary: install
 	dh_testdir
 	dh_testroot
+	dh_install --sourcedir=debian/tmp
 	dh_installchangelogs
+	dh_link
+	dh_strip --dbg-package=libdevlock-dbg
+	dh_compress
+	dh_fixperms
+	dh_makeshlibs
+	dh_shlibdeps --libpackage=libdevlock1
 	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
-.PHONY: build clean install
+
+.PHONY: build clean binary install

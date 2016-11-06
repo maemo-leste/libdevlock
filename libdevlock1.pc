@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libdevlock1
+Description: Libraries for libdevlock1
+Requires: glib-2.0
+Version: 1.0.9
+Libs: -ldevlock
+Cflags:

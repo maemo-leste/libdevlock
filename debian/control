@@ -1,15 +1,44 @@
-Source: libdevlock-dev
+Source: libdevlock
 Section: libs
 Priority: extra
 Maintainer: Pali Rohár <pali.rohar@gmail.com>
 Build-Depends: debhelper (>= 5)
 Standards-Version: 3.9.2
 
+Package: libdevlock1
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}
+Description: functions for validating and changing the lock code
+ libdevlock provides an API that allows validating and changing the device
+ lock code stored in CAL.
+
+Package: libdevlock-bin
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}
+Description: functions for validating and changing the lock code -- binaries
+ libdevlock provides an API that allows validating and changing the device
+ lock code stored in CAL.
+ .
+ This package contains devlocktool binary
+
 Package: libdevlock-dev
-Architecture: all
+Architecture: any
 Depends: libdevlock1
+Section: devel
 Description: functions for validating and changing the lock code
  libdevlock provides an API that allows validating and changing the device
  lock code stored in CAL.
  .
- This package contains development header files
+ This package contains development header files for libdevlock1
+
+Package: libdevlock-dbg
+Architecture: any
+Depends: libdevlock1 (= ${binary:Version}), libdevlock-bin (= ${binary:Version})
+Section: devel
+Description: functions for validating and changing the lock code
+ libdevlock provides an API that allows validating and changing the device
+ lock code stored in CAL.
+ .
+ This package contains debug symbols
