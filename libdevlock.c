@@ -59,17 +59,17 @@ get_int_from_cal_by_key(gint32 *val, const char *name)
 {
   int rv = 0;
   unsigned long len;
-  int *ptr = NULL;
+  void *ptr = NULL;
   struct cal *cal;
 
   if (!val || cal_init(&cal) < 0)
     return 0;
 
-  if (!cal_read_block(cal, name, (void **)&ptr, &len, CAL_FLAG_USER))
+  if (!cal_read_block(cal, name, &ptr, &len, CAL_FLAG_USER))
   {
     if (ptr && len == sizeof(*val))
     {
-      *val = *ptr;
+      *val = *(gint32 *)ptr;
       free(ptr);
       rv = 1;
     }
@@ -130,13 +130,16 @@ validate_devlock_code(const char *lock_code)
   char *salt;
   unsigned long len;
   struct cal_lock_code *cl = NULL;
+  void *ptr;
   struct cal *cal;
 
   if (cal_init(&cal) < 0)
     return !strcmp(lock_code, DEFAULT_LOCK_LODE);
 
-  if (cal_read_block(cal, "lock_code", (void **)&cl, &len, CAL_FLAG_USER))
+  if (cal_read_block(cal, "lock_code", &ptr, &len, CAL_FLAG_USER))
     return !strcmp(lock_code, DEFAULT_LOCK_LODE);
+
+  cl = (struct cal_lock_code *)ptr;
 
   if (!cl || len != sizeof(struct cal_lock_code) || cl->ver != 2)
   {
@@ -658,7 +661,7 @@ set_autolock_key(gboolean enabled)
     return FALSE;
 
   rv = devlock_set_bool(DEVLOCK_GCONF_DIR"/devicelock_autolock_enabled",
-                        enabled);
+			enabled);
 
   if (rv && !devlocktool_autolock_key)
     devlocktool_autolock_key = TRUE;
@@ -688,7 +691,7 @@ get_timeout_key(gint *timeout)
     else
     {
       if (!(rv = store_timeout_via_devlocktool(*timeout)))
-        return FALSE;
+	return FALSE;
     }
 
     devlocktool_timeout_key = TRUE;
@@ -704,7 +707,7 @@ get_autolock_key(gboolean *enabled)
   gboolean dlt_enabled = FALSE;
 
   rv = devlock_get_bool(DEVLOCK_GCONF_DIR"/devicelock_autolock_enabled",
-                        enabled);
+			enabled);
 
   if (!devlocktool_autolock_key)
   {
@@ -714,15 +717,15 @@ get_autolock_key(gboolean *enabled)
     {
       if (*enabled != dlt_enabled)
       {
-        rv = devlock_set_bool(DEVLOCK_GCONF_DIR"/devicelock_autolock_enabled",
-                              dlt_enabled);
-        *enabled = dlt_enabled;
+	rv = devlock_set_bool(DEVLOCK_GCONF_DIR"/devicelock_autolock_enabled",
+			      dlt_enabled);
+	*enabled = dlt_enabled;
       }
     }
     else
     {
       if (!(rv = store_autolock_via_devlocktool(*enabled)))
-        return FALSE;
+	return FALSE;
     }
 
     devlocktool_autolock_key = TRUE;
