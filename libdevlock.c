@@ -235,11 +235,10 @@ devlock_gconf_notifier_add(gchar *dir, gchar *namespace_section,
   if (!gconf)
     goto err;
 
-  if (!notifiers ||
-      !(notifiers =
-        g_hash_table_new(g_int_hash, g_int_equal)))
+  if (!notifiers)
   {
-    goto err;
+    if (!(notifiers = g_hash_table_new(g_int_hash, g_int_equal)))
+      goto err;
   }
 
   gconf_client_add_dir(gconf, dir, 0, &gerror);
@@ -661,7 +660,7 @@ set_autolock_key(gboolean enabled)
     return FALSE;
 
   rv = devlock_set_bool(DEVLOCK_GCONF_DIR"/devicelock_autolock_enabled",
-			enabled);
+                        enabled);
 
   if (rv && !devlocktool_autolock_key)
     devlocktool_autolock_key = TRUE;
@@ -691,7 +690,7 @@ get_timeout_key(gint *timeout)
     else
     {
       if (!(rv = store_timeout_via_devlocktool(*timeout)))
-	return FALSE;
+        return FALSE;
     }
 
     devlocktool_timeout_key = TRUE;
@@ -707,7 +706,7 @@ get_autolock_key(gboolean *enabled)
   gboolean dlt_enabled = FALSE;
 
   rv = devlock_get_bool(DEVLOCK_GCONF_DIR"/devicelock_autolock_enabled",
-			enabled);
+                        enabled);
 
   if (!devlocktool_autolock_key)
   {
@@ -717,15 +716,15 @@ get_autolock_key(gboolean *enabled)
     {
       if (*enabled != dlt_enabled)
       {
-	rv = devlock_set_bool(DEVLOCK_GCONF_DIR"/devicelock_autolock_enabled",
-			      dlt_enabled);
-	*enabled = dlt_enabled;
+        rv = devlock_set_bool(DEVLOCK_GCONF_DIR"/devicelock_autolock_enabled",
+                              dlt_enabled);
+        *enabled = dlt_enabled;
       }
     }
     else
     {
       if (!(rv = store_autolock_via_devlocktool(*enabled)))
-	return FALSE;
+        return FALSE;
     }
 
     devlocktool_autolock_key = TRUE;
