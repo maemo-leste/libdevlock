@@ -158,7 +158,6 @@ validate_devlock_code(const char *lock_code)
     return !strcmp(lock_code, DEFAULT_LOCK_LODE);
 
   salt = strndup(encrypted_code, sizeof(cl->code));
-  zero_free(encrypted_code);
 
   if (salt)
   {
@@ -168,6 +167,8 @@ validate_devlock_code(const char *lock_code)
   }
   else
     rv = -1;
+
+  zero_free(encrypted_code);
 
   return rv;
 }
