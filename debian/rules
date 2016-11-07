@@ -51,7 +51,7 @@ binary: install
 	dh_link
 	dh_strip --dbg-package=libdevlock-dbg
 	dh_compress
-	dh_fixperms
+	dh_fixperms -Xdevlocktool
 	dh_makeshlibs
 	dh_shlibdeps --libpackage=libdevlock1
 	dh_installdeb
