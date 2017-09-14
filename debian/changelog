@@ -1,3 +1,9 @@
+libdevlock (1.0.9.1) unstable; urgency=medium
+
+  * enable git builds
+
+ -- Ivan J. <parazyd@dyne.org>  Thu, 14 Sep 2017 21:49:00 +0200
+
 libdevlock (1.0.9.1+0m5) unstable; urgency=low
 
   * Initial RE release
