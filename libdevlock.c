@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/time.h>
+#include <errno.h>
 
 #include "libdevlock.h"
 
@@ -606,7 +607,8 @@ devlocktool(devlocktool_function func, int *val)
   else
     sprintf(param2, "%d\n", *val);
 
-  execl("/bin/devlocktool", "/bin/devlocktool", param1, param2, NULL);
+  if (execl("/bin/devlocktool", "/bin/devlocktool", param1, param2, NULL) == -1)
+    exit(errno);
 
   return FALSE;
 }
