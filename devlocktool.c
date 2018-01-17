@@ -94,10 +94,10 @@ cal_get(gboolean (*cal_func)(gint *), const char *pipe_str)
   return FALSE;
 }
 
-static gboolean
+static int
 cal_set(gboolean (*cal_func)(gint), const char *param)
 {
-  gboolean rv;
+  gboolean rv = -EINVAL;
 
   if (param)
   {
@@ -106,8 +106,6 @@ cal_set(gboolean (*cal_func)(gint), const char *param)
     rv = cal_func(value);
     fprintf(stdout, "set value is %d, status = %d\n", value, rv);
   }
-  else
-    rv = -EINVAL;
 
   return rv;
 }
