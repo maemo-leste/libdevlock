@@ -22,7 +22,7 @@ libdevlock.so.1.0.9: libdevlock.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -Wall -D_GNU_SOURCE -fPIC -shared $^ $(shell pkg-config --cflags --libs $(PACKAGES)) -lcrypt -Wl,-soname=libdevlock.so.1 -o $@
 	ln -s libdevlock.so.1.$(LIB_VERSION) libdevlock.so.1
 
-devlocktool: devlocktool.c
+devlocktool: devlocktool.c libdevlock.so.1.0.9
 	$(CC) $(CFLAGS) $(LDFLAGS) -Wall -D_GNU_SOURCE -fPIC $^ $(shell pkg-config --cflags glib-2.0) -L./ -l:libdevlock.so.1 -o $@
 
 test: test.c
