@@ -32,13 +32,3 @@ Description: functions for validating and changing the lock code
  lock code stored in CAL.
  .
  This package contains development header files for libdevlock1
-
-Package: libdevlock-dbg
-Architecture: any
-Depends: libdevlock1 (= ${binary:Version}), libdevlock-bin (= ${binary:Version})
-Section: devel
-Description: functions for validating and changing the lock code
- libdevlock provides an API that allows validating and changing the device
- lock code stored in CAL.
- .
- This package contains debug symbols
