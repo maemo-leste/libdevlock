@@ -1,3 +1,10 @@
+libdevlock (1.0.9.3) unstable; urgency=low
+
+  * modernise debian
+  * Makefile now works properly in parallel mode
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Mon, 07 Oct 2024 14:26:51 +0200
+
 libdevlock (1.0.9.2) unstable; urgency=low
 
   * do not hang if execl of /bin/devlocktool fails
